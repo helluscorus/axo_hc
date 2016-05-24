@@ -3,6 +3,9 @@
       <sDescription>.</sDescription>
       <author>hc</author>
       <license></license>
+      <includes>
+        <include>./beatmachine.h</include>
+      </includes>
       <inlets>
          <int32 name="beat"/>
          <frac32.bipolar name="rate"/>
