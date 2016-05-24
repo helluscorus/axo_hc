@@ -1,12 +1,12 @@
 #include "./equations.h"
 
-uint32_t Equation(int equation_num, uint32_t t, uint32_t x, uint32_t y, uint32_t z) {
+uint32_t Equation(int equation_num, uint32_t t, uint32_t x, uint32_t y, uint32_t z, uint32_t attr_beat) {
     switch (equation_num) {
 
         // Mostly taken from http://pelulamu.net/countercomplex/music_formula_collection.txt
     
         case 0: // object text field
-        w = t/(t%(t>>x|t>>y));
+        w = attr_beat;
         break;
 
         case 1: // viznut 2011-09-18 http://www.youtube.com/watch?v=GtQdIYUtAHg
@@ -62,7 +62,7 @@ uint32_t Equation(int equation_num, uint32_t t, uint32_t x, uint32_t y, uint32_t
         break;	
 
         default: // object text field
-        w = x;
+        w = attr_beat;
     }
     
     return w;
