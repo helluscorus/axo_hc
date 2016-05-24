@@ -1,8 +1,9 @@
 <objdefs appVersion="1.0.10">
    <obj.normal id="beatmachine" uuid="da8bb99a-f490-4ca9-a1ed-e3dba009f1d9">
       <sDescription>.</sDescription>
-      <author>hc</author>
+      <author>Stephen Hughes</author>
       <license>GPL</license>
+      <helpPatch>beatmachine.axh</helpPatch>
       <inlets>
          <int32 name="beat"/>
          <frac32.bipolar name="rate"/>
@@ -33,7 +34,6 @@ uint64_t startpos;
 uint32_t compute_output;]]></code.declaration>
       <code.init><![CDATA[inc = 0;
 t = 0;
-//startpos=0;
 index = 0;
 x = 0;
 y = 0;
