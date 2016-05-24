@@ -2,3 +2,5 @@
 #define BEATMACHINE_H
 
 #include "./equations.c"
+
+#endif
