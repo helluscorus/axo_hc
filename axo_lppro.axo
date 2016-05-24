@@ -1,0 +1,142 @@
+<objdefs appVersion="1.0.10">
+   <obj.normal id="lppro" uuid="9bf2ef1d-fd93-42ba-a61d-eacceb50ce6f">
+      <sDescription>LP Pro sysex stuff</sDescription>
+      <author>HC</author>
+      <license>GPL</license>
+      <helpPatch>midi_out.axh</helpPatch>
+      <inlets>
+         <bool32 name="trig"/>
+         <charptr32 name="text"/>
+      </inlets>
+      <outlets/>
+      <displays/>
+      <params/>
+      <attribs>
+         <combo name="device">
+            <MenuEntries>
+               <string>din</string>
+               <string>usb host port 1</string>
+               <string>usb host port 2</string>
+               <string>usb host port 3</string>
+               <string>usb host port 4</string>
+               <string>internal port 1</string>
+               <string>internal port 2</string>
+               <string>usb device port 1</string>
+            </MenuEntries>
+            <CEntries>
+               <string>MIDI_DEVICE_DIN, 1</string>
+               <string>MIDI_DEVICE_USB_HOST, 1</string>
+               <string>MIDI_DEVICE_USB_HOST, 2</string>
+               <string>MIDI_DEVICE_USB_HOST, 3</string>
+               <string>MIDI_DEVICE_USB_HOST, 4</string>
+               <string>MIDI_DEVICE_INTERNAL, 1</string>
+               <string>MIDI_DEVICE_INTERNAL, 2</string>
+               <string>MIDI_DEVICE_USB_DEVICE, 1</string>
+            </CEntries>
+         </combo>
+      </attribs>
+      <includes>
+         <include>./lppro/lppro.h</include>
+      </includes>
+      <code.declaration><![CDATA[int ntrig;
+
+// https://global.novationmusic.com/sites/default/files/novation/downloads/10598/launchpad-pro-programmers-reference-guide_0.pdf
+
+/* Launchpad Pro sysex ref
+ *
+ * Param Name		Param Byte		Val1		Val2 	Val3		Val4		Repeats		Notes
+ * ============================================================================================
+ * Set LEDs					LED		Colour
+ * (standard mode)	0a			01-63	00-7f					Yes x97
+ * --------------------------------------------------------------------------------------------
+ * Set LEDs					LED		Red		Green	Blue
+ * (RGB mode)		0b			01-63	00-3f	00-3f	00-3f	Yes x78
+ * --------------------------------------------------------------------------------------------
+ * Set Column
+ * 
+ * --------------------------------------------------------------------------------------------
+ * Set Row
+ * 
+ * --------------------------------------------------------------------------------------------
+ * Set All
+ * 
+ * --------------------------------------------------------------------------------------------
+ * Set Grid
+ * 
+ * --------------------------------------------------------------------------------------------
+ * Flash LED
+ * 
+ * --------------------------------------------------------------------------------------------
+ * Pulse LED
+ * 
+ * --------------------------------------------------------------------------------------------
+ * Scroll Text
+ * 
+ * --------------------------------------------------------------------------------------------
+ * Mode Select
+ * 
+ * --------------------------------------------------------------------------------------------
+ * Mode Status
+ * 
+ * --------------------------------------------------------------------------------------------
+ * Live Layout
+ * Selection
+ * --------------------------------------------------------------------------------------------
+ * Live Layout
+ * Status
+ * --------------------------------------------------------------------------------------------
+ * Standalone
+ * Layout Select
+ * --------------------------------------------------------------------------------------------
+ * Fader Setup
+ * 
+ * --------------------------------------------------------------------------------------------
+ */
+
+uint8_t sysex_start[6] = {0xf0, 0x00, 0x20, 0x29, 0x02, 0x10}; // sysex id
+uint8_t sysex_func[1] = {0x0a}; // param, 14 = scroll text
+uint8_t p1[1] = {0x1f}; // val1, col
+uint8_t p2[1] = {0x1f}; // val2text scroll (bool)
+uint8_t p3[1] = {0x00}; // val3 text
+uint8_t p4[1] = {0x00}; //val4
+uint8_t sysex_end[1] = {0xf7}; //sysex end 
+
+const char* splash = "AxoLP Pro";
+
+uint8_t sysex_out[12];]]></code.declaration>
+      <code.init><![CDATA[memcpy(sysex_out, sysex_start, 6);
+memset(sysex_out + 6, 0x14, 1);
+memset(sysex_out + 7, 0x02, 1);
+memset(sysex_out + 8, 0x00, 1);
+memcpy(sysex_out + 9, splash, 9);
+memcpy(sysex_out + 18, p4, 1);
+memcpy(sysex_out + 19, sysex_end, 1);
+
+
+MidiSendSysEx((midi_device_t) attr_device, sysex_out, 19);]]></code.init>
+      <code.krate><![CDATA[
+
+uint8_t decode_len = 64;
+const char* decode[decode_len] = {inlet_text};
+
+
+//MidiSendSysEx((midi_device_t) attr_device, sysex_out, 12);
+
+if ((inlet_trig>0) && !ntrig) {
+	memcpy(sysex_out, sysex_start, 6);
+	memset(sysex_out + 6, 0x14, 1);
+	memset(sysex_out + 7, 0x02, 1);
+	memset(sysex_out + 8, 0x00, 1);
+	memcpy(sysex_out + 9, inlet_text, decode_len);
+	memcpy(sysex_out + 9 + decode_len, p4, 1);
+	memcpy(sysex_out + 9 + decode_len + 1, sysex_end, 1);
+
+	int sysex_len = 11 + decode_len;
+	
+	MidiSendSysEx((midi_device_t) attr_device, sysex_out, sysex_len);
+	ntrig=1;
+	}
+
+if (!(inlet_trig>0)) ntrig=0;]]></code.krate>
+   </obj.normal>
+</objdefs>
