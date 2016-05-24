@@ -2,7 +2,7 @@
    <obj.normal id="lppro" uuid="9bf2ef1d-fd93-42ba-a61d-eacceb50ce6f">
       <sDescription>LP Pro sysex stuff</sDescription>
       <author>HC</author>
-      <license>GPL</license>
+      <license></license>
       <helpPatch>midi_out.axh</helpPatch>
       <inlets>
          <bool32 name="trig"/>
