@@ -30,24 +30,13 @@
       </params>
       <attribs/>
    </obj>
-   <comment type="patch/comment" x="826" y="252" text="you may want to quantize to 8-bit to get the authentic sound"/>
    <obj type="osc/beatmachine" uuid="da8bb99a-f490-4ca9-a1ed-e3dba009f1d9" name="beatmachine_2" x="602" y="280">
       <params/>
       <attribs>
          <table attributeName="beat" table="t/(t%(t&gt;&gt;x|t&gt;&gt;y))"/>
       </attribs>
    </obj>
-   <obj type="math/quantize" uuid="c2e999efc45cf8c5077dd1b140dcc793221e050e" name="quantize_1" x="826" y="280">
-      <params/>
-      <attribs>
-         <spinner attributeName="bits" value="8"/>
-      </attribs>
-   </obj>
-   <obj type="mux/mux 2" uuid="539c246f4c360ac476e128cfbfa84348fb7f7e73" name="mux_1" x="924" y="280">
-      <params/>
-      <attribs/>
-   </obj>
-   <obj type="audio/out stereo" uuid="a1ca7a567f535acc21055669829101d3ee7f0189" name="out_1" x="1036" y="280">
+   <obj type="audio/out stereo" uuid="a1ca7a567f535acc21055669829101d3ee7f0189" name="out_1" x="854" y="280">
       <params/>
       <attribs/>
    </obj>
@@ -57,13 +46,7 @@
       </params>
       <attribs/>
    </obj>
-   <obj type="ctrl/toggle" uuid="42b8134fa729d54bfc8d62d6ef3fa99498c1de99" name="toggle_1" x="840" y="350">
-      <params>
-         <bool32.tgl name="b" value="0"/>
-      </params>
-      <attribs/>
-   </obj>
-   <obj type="disp/scope 128 b" uuid="2b69f51a714fc276503ef10c349d6d253d1ae5e2" name="scope_4" x="1036" y="392">
+   <obj type="disp/scope 128 b" uuid="2b69f51a714fc276503ef10c349d6d253d1ae5e2" name="scope_4" x="854" y="392">
       <params/>
       <attribs/>
    </obj>
@@ -121,22 +104,9 @@
       </net>
       <net>
          <source obj="beatmachine_2" outlet="out"/>
-         <dest obj="mux_1" inlet="i1"/>
-         <dest obj="quantize_1" inlet="a"/>
-      </net>
-      <net>
-         <source obj="mux_1" outlet="o"/>
          <dest obj="scope_4" inlet="in"/>
          <dest obj="out_1" inlet="left"/>
          <dest obj="out_1" inlet="right"/>
-      </net>
-      <net>
-         <source obj="quantize_1" outlet="b"/>
-         <dest obj="mux_1" inlet="i2"/>
-      </net>
-      <net>
-         <source obj="toggle_1" outlet="o"/>
-         <dest obj="mux_1" inlet="s"/>
       </net>
    </nets>
    <settings>
