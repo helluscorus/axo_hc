@@ -50,15 +50,15 @@ uint32_t Equation(int equation_num, uint32_t t, uint32_t x, uint32_t y, uint32_t
         break;
 
         case 11:
-        w = (t*(t>>5|t>>8))>>(t>>16&t);
+        w = (t*(t>>x|t>>y))>>(t>>z&t);
         break;
 
         case 12:
-        w = ((2*(t&1)-1)*t)-(t>>8);
+        w = ((2*(t&1)-1)*t)-(t>>x);
         break;
 
         case 13:
-        w = (t&t>>4)-(t>>13&t);
+        w = (t&t>>x)-(t>>y&t);
         break;	
 
         default: // object text field
