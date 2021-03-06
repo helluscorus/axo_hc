@@ -61,7 +61,7 @@ if (inlet_rst && reset) {
         beat_table = attr_beat;
         t = ((inlet_startpos << 4) + index) >> inlet_divider;
         if (!beat_table) {
-        	compute_output = (((Equation(inlet_beat, t, x, y, z, 1)) << 23) - (1 << 26)) <<1 ;
+        	compute_output = (((Equation(inlet_beat, t, x, y, z, 1)) << 23) - (1 << 26))<<1 ;
         } else {
         	compute_output = (((Equation(inlet_beat, t, x, y, z, attr_beat)) << 23) - (1 << 26))<<1 ;
         }
