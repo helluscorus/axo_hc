@@ -61,7 +61,7 @@ uint32_t Equation(int equation_num, uint32_t t, uint32_t x, uint32_t y, uint32_t
         w = (t&t>>x)-(t>>y&t);
         break;	
 
-        default: // object text field
+        default: // object text field hack
         w = attr_beat;
     }
     
